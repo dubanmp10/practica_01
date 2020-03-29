@@ -1,0 +1,146 @@
+
+//EJERCICIO NUMERO UNO---------------------------------------------------
+
+#include <QCoreApplication>
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+
+class A{
+   private:
+    int serial;
+    std::string denominacion;
+
+    public:
+
+    A(){};
+    A(int serial, string denominacion):serial(serial), denominacion(denominacion){}
+    void set_serial(int ser){
+        serial = ser;
+    }
+    void set_denominacion(string den){
+        denominacion=den;
+    }
+     int get_serial(){
+         return serial;
+     }
+     string get_denominacion(){
+         return denominacion;
+     }
+};
+
+class ListadeObjetos{
+private:
+    vector <A> vector;
+public:
+
+    //constructor
+    ListadeObjetos(){};
+
+    void agregarObjeto(A objeto){
+        if(vector.size()<5){
+            vector.push_back(objeto);
+            cout<<"Objeto agregado satisfactoriamente!\n\n";
+        }
+        else{
+            cout<<"Arreglo lleno!\n\n";
+        }
+    }
+
+    void retirarObjeto(){
+        if(!vector.empty()){
+            vector.pop_back();
+            cout<<"Objeto retirado!\n\n";
+        }
+        else{
+            cout<<"Arreglo vacio!\n\n";
+        }
+    }
+
+    //Crea un objeto de tipo A y lo agrega a la ListadeObjetos
+    void nuevoObjetoLista(int serial, string denominacion){
+        A* objeto= new A(serial, denominacion);
+        agregarObjeto(*objeto);
+
+    }
+
+    void mostrarObjeto(){
+        A objeto;
+        if(vector.empty()){
+            cout<<"Arreglo vacio!"<<endl;
+            return;
+        }
+        cout<<"Desplegando informacion de todos los objetos\n";
+        for(int i=0; i<vector.size(); i++){
+            objeto=vector.at(i);
+            cout<<"Serial: "<<objeto.get_serial()<<endl;
+            cout<<"Denominacion: "<<objeto.get_denominacion()<<"\n\n";
+
+        }
+    }
+
+    /*x es una posición del vector. Las posiciones deben ser ingresadas iniciando desde 1 y no desde 0
+     * de esta forma la primera posicion del vector corresponde a x=1*/
+    void mostrarObjeto(int x){
+        if(x<=vector.size()){
+            A objeto=vector.at(x-1);
+            cout<<"Objeto "<<x<<":"<<endl;
+            cout<<"Serial: "<<objeto.get_serial()<<endl;
+            cout<<"Denominacion: "<<objeto.get_denominacion()<<"\n\n"
+                                                               "";
+        }
+        else{
+            cout<<"El arreglo no tiene algun elemento en esta posicion!\n\n";
+        }
+
+
+    }
+
+};
+int main(){
+    int opt=0;
+    int seri;
+    string denom;
+    ListadeObjetos* lista= new ListadeObjetos();
+
+    while(opt!=4){
+        cout<<"------------------------------------------------"<<endl;
+        cout<<"seleccione una opcion"<<endl;
+        cout<<"1. Agregar objeto a la lista."<<endl;
+        cout<<"2. Retirar objeto de la lista."<<endl;
+        cout<<"3. Mostrar Objeto."<<endl;
+        cout<<"4. Salir\n";
+        cin>>opt;
+
+        switch (opt) {
+        case 1:
+            cout<<"Ingrese el serial del objeto a ingresar: ";
+            cin>>seri;
+            cout<<"Ingrese la denominacion del objeto: ";
+            cin>>denom;
+            lista->nuevoObjetoLista(seri, denom);
+            break;
+        case 2:
+            lista->retirarObjeto();
+            break;
+        case 3:
+            int pos;
+            cout<<"Si desea ver la informacion de un objeto en una posicion en particular, ingrese el numero de la posicion,\n "
+                  "de lo contrario ingrese '0' para ver todos los elementos: ";
+            cin>>pos;
+            if(pos!=0){
+                lista->mostrarObjeto(pos);
+            }
+            else{
+                lista->mostrarObjeto();
+            }
+            break;
+        default:
+            break;
+        }
+
+    }
+
+}
+
